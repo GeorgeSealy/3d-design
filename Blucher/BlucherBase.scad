@@ -51,7 +51,7 @@ module infoBar(tolerance = 0) {
     infoOffY = 1 - (baseWidth - diceSize) / 2;
     infoLength = baseLength - 15 - diceSize;
     
-    translate([0, 0, 1.5]) sabot(length = infoLength, width = diceSize, offX = -6 + (baseLength - infoLength) / 2, offY = infoOffY, tolerance = tolerance);
+    translate([0, 0, baseHeight - 1]) sabot(length = infoLength, width = diceSize, offX = -6 + (baseLength - infoLength) / 2, offY = infoOffY, tolerance = tolerance);
     
     // Dice
     sabot(length = diceSize, width = diceSize, offX = 6 - (baseLength - diceSize) / 2, offY = infoOffY, tolerance = tolerance);
@@ -92,7 +92,7 @@ module sabotsFrenchInfantryWithArty(tolerance = 0, cutouts = true) {
         if (!cutouts) {
             
             border = 0.8;
-            translate([0, 0, 0.5]) union() {
+            translate([0, 0, 1]) union() {
                 
                 // Skirmishers
                 sabot(length = 30 - 2 * border, width = 9 - 2 * border, offX = 25, offY = skirmishLineY, tolerance = tolerance);
@@ -140,7 +140,7 @@ module sabotsFrenchInfantry(tolerance = 0, cutouts = true) {
         
         if (!cutouts) {
             border = 0.8;
-            translate([0, 0, 0.5]) union() {
+            translate([0, 0, 1]) union() {
                 
                 // Skirmishers
                 sabot(length = 30 - 2 * border, width = 9 - 2 * border, offX = spacingX, offY = skirmishLineY, tolerance = tolerance);
@@ -184,7 +184,7 @@ module sabotsCavalry(tolerance = 0, cutouts = true) {
         
       if (!cutouts) {
           border = 0.8;
-          translate([0, 0, 0.5]) union() {
+          translate([0, 0, 1]) union() {
                 
               sabot(length = cavalryWidth - 2 * border, width = cavalryDepth - 2 * border, offX = spacingX, offY = firstLineY, tolerance = tolerance);
               sabot(length = cavalryWidth - 2 * border, width = cavalryDepth - 2 * border, offX = -spacingX, offY = firstLineY, tolerance = tolerance);
@@ -258,7 +258,7 @@ module sabotsBritishInfantryWithArty(tolerance = 0, cutouts = true) {
         if (!cutouts) {
             
             border = 0.8;
-            translate([0, 0, 0.5]) union() {
+            translate([0, 0, 1]) union() {
                 
                 // Skirmishers
                 sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = 22, offY = skirmishLineY, tolerance = tolerance);
@@ -289,7 +289,7 @@ module angleMarkings(length = 7, width = 1.5, height = 0.0 + grassHeight) {
 };
 
 union() {
-/**
+/**/
     intersection() {
         union() {
             difference() {
@@ -309,8 +309,8 @@ union() {
         scale([1, 1, 20]) translate([0, 0, -0.5]) cylindricalRect();
 
     };
-/**
 /**/
+/*
     intersection() {
         baseShape();
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantryWithArty(cutouts = false);
@@ -319,5 +319,5 @@ union() {
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsCavalry(cutouts = false);
         translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsArtillery(cutouts = false);
      };
-/**/
+*/
 };
