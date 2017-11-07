@@ -3,7 +3,7 @@ baseWidth = 65;
 baseHeight = 2.6;
 baseCorner = 1;
 figureStandHeight = 1;
-grassHeight = 0.8;
+grassHeight = 0.7;
 
 sabotLength = 60;
 sabotWidth = 40;
@@ -14,6 +14,10 @@ diceSize = 8;
 
 module noise() {
     scale([1.0 / 100.0, 1.0 / 100.0, 1.0 / 100.0]) surface(file = "Noise.png", center = true, invert = false);
+};
+
+module firepower() {
+    scale([1.0 / 100.0, 1.0 / 100.0, 1.0 / 100.0]) surface(file = "Firepower.png", center = true, invert = false);
 };
 
 module baseShape(length = baseLength, width = baseWidth, height = baseHeight) {
@@ -296,14 +300,15 @@ union() {
                 baseShape();
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantryWithArty(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantryWithArty(tolerance = sabotTolerance);
-//                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantry(tolerance = sabotTolerance);
+                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantry(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsCavalry(tolerance = sabotTolerance);
-                translate([0, 0, baseHeight - sabotHeight]) sabotsArtillery(tolerance = sabotTolerance);
+//                translate([0, 0, baseHeight - sabotHeight]) sabotsArtillery(tolerance = sabotTolerance);
             };
             
                 centreMarking();
                 angleMarkings();
 
+                translate([38, -19, 0.0]) scale([6, 6, baseHeight + grassHeight]) firepower();
         };
         
         scale([1, 1, 20]) translate([0, 0, -0.5]) cylindricalRect();
@@ -315,9 +320,9 @@ union() {
         baseShape();
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantryWithArty(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantryWithArty(cutouts = false);
-//        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantry(cutouts = false);
+        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantry(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsCavalry(cutouts = false);
-        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsArtillery(cutouts = false);
+//        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsArtillery(cutouts = false);
      };
 */
 };
