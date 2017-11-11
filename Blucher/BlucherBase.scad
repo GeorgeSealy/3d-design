@@ -29,10 +29,6 @@ module baseShape(length = baseLength, width = baseWidth, height = baseHeight) {
 
 };
 
-module sabot(length = sabotLength, width = sabotWidth, height = 2 * sabotHeight, offX = 0, offY = 0, tolerance = sabotTolerance) {
-    translate([offX, offY, height / 2]) cube([length + tolerance, width + tolerance, height], center = true);
-};
-
 module cylindricalRect(length = baseLength, width = baseWidth, height = 1, cornerRadius = baseCorner) {
 
     cx = length / 2 - cornerRadius;
@@ -50,15 +46,33 @@ module cylindricalRect(length = baseLength, width = baseWidth, height = 1, corne
     };
 };
 
-module infoBar(tolerance = 0) {
+module infoBar() {
     // Info bar
     infoOffY = 1 - (baseWidth - diceSize) / 2;
     infoLength = baseLength - 15 - diceSize;
     
-    translate([0, 0, baseHeight - 1]) sabot(length = infoLength, width = diceSize, offX = -6 + (baseLength - infoLength) / 2, offY = infoOffY, tolerance = tolerance);
+    translate([-6 + (baseLength - infoLength) / 2, infoOffY, baseHeight - 1]) sabot(length = infoLength, width = diceSize, cutout = true);
     
     // Dice
-    sabot(length = diceSize, width = diceSize, offX = 6 - (baseLength - diceSize) / 2, offY = infoOffY, tolerance = tolerance);
+    translate([6 - (baseLength - diceSize) / 2, infoOffY, 1]) sabot(length = diceSize, width = diceSize, cutout = true);
+};
+
+module sabot(length = sabotLength, width = sabotWidth, height = 2 * sabotHeight, cutout = false, filled = false) {
+
+	if (cutout) {
+		tolerance = sabotTolerance;
+		translate([0, 0, height / 2]) cube([length + tolerance, width + tolerance, height], center = true);
+	} else {
+        border = 0.8;
+
+		translate([0, 0, height / 2]) difference() {
+    		cube([length, width, height], center = true);
+
+    		if (!filled) {
+            	translate([0, 0, 1]) cube([length - 2 * border, width - 2 * border, height], center = true);
+            };
+    	};
+    };
 };
 
 module sabotsFrenchInfantryWithArty(tolerance = 0, cutouts = true) {
@@ -236,97 +250,47 @@ module sabotsBritishInfantryWithArty(tolerance = 0, cutouts = true) {
     skirmishLineY = 22;
     mainLineY = 6.5;
     commanderLineY = -10;
-    
-    difference() {
-        union() {
-            
-            // Skirmishers
-            sabot(length = 40, width = 7, offX = 22, offY = skirmishLineY, tolerance = tolerance);
-            sabot(length = 40, width = 7, offX = -22, offY = skirmishLineY, tolerance = tolerance);
+    sideX = 22.5;
 
-            // Infantry
-            sabot(length = 40, width = 13, offX = 22, offY = mainLineY, tolerance = tolerance);
-            sabot(length = 40, width = 13, offX = -22, offY = mainLineY, tolerance = tolerance);
+    union() {
             
-            // Artillery
-            sabot(length = 20, width = 20, offX = 8, offY = commanderLineY - 2, tolerance = tolerance);
+        // Skirmishers
+        translate([sideX, skirmishLineY, 0]) sabot(length = 40, width = 7, cutout = cutout, filled = filled);
+        translate([-sideX, skirmishLineY, 0]) sabot(length = 40, width = 7, cutout = cutout, filled = filled);
+
+        // Infantry
+        translate([sideX, mainLineY, 0]) sabot(length = 40, width = 13, cutout = cutout, filled = filled);
+        translate([-sideX, mainLineY, 0]) sabot(length = 40, width = 13, cutout = cutout, filled = filled);
             
-            // Commander
-            sabot(length = 10, width = 12, offX = -10, offY = commanderLineY, tolerance = tolerance);
+        // Artillery
+        translate([8, commanderLineY - 2, 0]) sabot(length = 20, width = 20, cutout = cutout, filled = filled);
             
-            if (cutouts) {
-                infoBar(tolerance = tolerance);
-            };
-        };
+        // Commander
+        translate([-10, commanderLineY, 0]) sabot(length = 8, width = 12, cutout = cutout, filled = filled);
         
-        if (!cutouts) {
-            
-            border = 0.8;
-            translate([0, 0, 1]) union() {
-                
-                // Skirmishers
-                sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = 22, offY = skirmishLineY, tolerance = tolerance);
-                sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = -22, offY = skirmishLineY, tolerance = tolerance);
-                
-                // Infantry
-                sabot(length = 40 - 2 * border, width = 13 - 2 * border, offX = 22, offY = mainLineY, tolerance = tolerance);
-                sabot(length = 40 - 2 * border, width = 13 - 2 * border, offX = -22, offY = mainLineY, tolerance = tolerance);
-            
-                // Artillery
-                sabot(length = 20 - 2 * border, width = 20 - 2 * border, offX = 8, offY = commanderLineY - 2, tolerance = tolerance);
-            
-                // Commander
-                sabot(length = 10 - 2 * border, width = 12 - 2 * border, offX = -10, offY = commanderLineY, tolerance = tolerance);
-
-            };
-        };
     };
 };
 
-module sabotsBritishInfantry(tolerance = 0, cutouts = true) {
+module sabotsBritishInfantry(cutout = false, filled = false) {
               
     skirmishLineY = 20;
     mainLineY = 2;
     commanderLineY = -14;
     sideX = 22.5;
 
-    difference() {
-        union() {
+    union() {
             
-            // Skirmishers
-            sabot(length = 40, width = 7, offX = sideX, offY = skirmishLineY, tolerance = tolerance);
-            sabot(length = 40, width = 7, offX = -sideX, offY = skirmishLineY, tolerance = tolerance);
+        // Skirmishers
+        translate([sideX, skirmishLineY, 0]) sabot(length = 40, width = 7, cutout = cutout, filled = filled);
+        translate([-sideX, skirmishLineY, 0]) sabot(length = 40, width = 7, cutout = cutout, filled = filled);
 
-            // Infantry
-            sabot(length = 40, width = 13, offX = sideX, offY = mainLineY, tolerance = tolerance);
-            sabot(length = 40, width = 13, offX = -sideX, offY = mainLineY, tolerance = tolerance);
+        // Infantry
+        translate([sideX, mainLineY, 0]) sabot(length = 40, width = 13, cutout = cutout, filled = filled);
+        translate([-sideX, mainLineY, 0]) sabot(length = 40, width = 13, cutout = cutout, filled = filled);
             
-            // Commander
-            sabot(length = 8, width = 12, offX = 0, offY = commanderLineY, tolerance = tolerance);
-            
-            if (cutouts) {
-                infoBar(tolerance = tolerance);
-            };
-        };
+        // Commander
+        translate([0, commanderLineY, 0]) sabot(length = 8, width = 12, cutout = cutout, filled = filled);
         
-        if (!cutouts) {
-            
-            border = 0.8;
-            translate([0, 0, 1]) union() {
-                
-                // Skirmishers
-                sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = sideX, offY = skirmishLineY, tolerance = tolerance);
-                sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = -sideX, offY = skirmishLineY, tolerance = tolerance);
-                
-                // Infantry
-                sabot(length = 40 - 2 * border, width = 13 - 2 * border, offX = sideX, offY = mainLineY, tolerance = tolerance);
-                sabot(length = 40 - 2 * border, width = 13 - 2 * border, offX = -sideX, offY = mainLineY, tolerance = tolerance);
-            
-                // Commander
-                sabot(length = 8 - 2 * border, width = 12 - 2 * border, offX = 0, offY = commanderLineY, tolerance = tolerance);
-
-            };
-        };
     };
 };
 
@@ -345,33 +309,40 @@ union() {
         union() {
             difference() {
                 baseShape();
-//                translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantryWithArty(tolerance = sabotTolerance);
-                translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantry(tolerance = sabotTolerance);
+
+                union() {
+            		infoBar(tolerance = 0);
+//                	translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantry(cutout = true);
+
+                translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantryWithArty(cutout = true);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantryWithArty(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantry(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsCavalry(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsArtillery(tolerance = sabotTolerance);
+                };
+
             };
             
-                centreMarking();
-                angleMarkings();
+            centreMarking();
+            angleMarkings();
 
-                //translate([38, -19, 0.0]) scale([6, 6, baseHeight + grassHeight]) firepower();
+            //translate([38, -19, 0.0]) scale([6, 6, baseHeight + grassHeight]) firepower();
         };
         
         scale([1, 1, 20]) translate([0, 0, -0.5]) cylindricalRect();
 
     };
 /**/
-/**
+/**/
     intersection() {
         baseShape();
-//        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantryWithArty(cutouts = false);
-        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantry(cutouts = false);
+//        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantry(cutout = false, filled = false);
+        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantryWithArty(cutout = false, filled = false);
+
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantryWithArty(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantry(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsCavalry(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsArtillery(cutouts = false);
      };
-**/
+/**/
 };
