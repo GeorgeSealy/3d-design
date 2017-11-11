@@ -283,6 +283,53 @@ module sabotsBritishInfantryWithArty(tolerance = 0, cutouts = true) {
     };
 };
 
+module sabotsBritishInfantry(tolerance = 0, cutouts = true) {
+              
+    skirmishLineY = 20;
+    mainLineY = 2;
+    commanderLineY = -14;
+    sideX = 22.5;
+
+    difference() {
+        union() {
+            
+            // Skirmishers
+            sabot(length = 40, width = 7, offX = sideX, offY = skirmishLineY, tolerance = tolerance);
+            sabot(length = 40, width = 7, offX = -sideX, offY = skirmishLineY, tolerance = tolerance);
+
+            // Infantry
+            sabot(length = 40, width = 13, offX = sideX, offY = mainLineY, tolerance = tolerance);
+            sabot(length = 40, width = 13, offX = -sideX, offY = mainLineY, tolerance = tolerance);
+            
+            // Commander
+            sabot(length = 8, width = 12, offX = 0, offY = commanderLineY, tolerance = tolerance);
+            
+            if (cutouts) {
+                infoBar(tolerance = tolerance);
+            };
+        };
+        
+        if (!cutouts) {
+            
+            border = 0.8;
+            translate([0, 0, 1]) union() {
+                
+                // Skirmishers
+                sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = sideX, offY = skirmishLineY, tolerance = tolerance);
+                sabot(length = 40 - 2 * border, width = 7 - 2 * border, offX = -sideX, offY = skirmishLineY, tolerance = tolerance);
+                
+                // Infantry
+                sabot(length = 40 - 2 * border, width = 13 - 2 * border, offX = sideX, offY = mainLineY, tolerance = tolerance);
+                sabot(length = 40 - 2 * border, width = 13 - 2 * border, offX = -sideX, offY = mainLineY, tolerance = tolerance);
+            
+                // Commander
+                sabot(length = 8 - 2 * border, width = 12 - 2 * border, offX = 0, offY = commanderLineY, tolerance = tolerance);
+
+            };
+        };
+    };
+};
+
 module centreMarking(length = 5, width = 1.5, height = 0.0 + grassHeight) {
     translate([0, (baseWidth - length) / 2, baseHeight + height / 2]) cube([width, length, height], center = true);
 };
@@ -299,8 +346,9 @@ union() {
             difference() {
                 baseShape();
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantryWithArty(tolerance = sabotTolerance);
+                translate([0, 0, baseHeight - sabotHeight]) sabotsBritishInfantry(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantryWithArty(tolerance = sabotTolerance);
-                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantry(tolerance = sabotTolerance);
+//                translate([0, 0, baseHeight - sabotHeight]) sabotsFrenchInfantry(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsCavalry(tolerance = sabotTolerance);
 //                translate([0, 0, baseHeight - sabotHeight]) sabotsArtillery(tolerance = sabotTolerance);
             };
@@ -308,21 +356,22 @@ union() {
                 centreMarking();
                 angleMarkings();
 
-                translate([38, -19, 0.0]) scale([6, 6, baseHeight + grassHeight]) firepower();
+                //translate([38, -19, 0.0]) scale([6, 6, baseHeight + grassHeight]) firepower();
         };
         
         scale([1, 1, 20]) translate([0, 0, -0.5]) cylindricalRect();
 
     };
 /**/
-/*
+/**
     intersection() {
         baseShape();
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantryWithArty(cutouts = false);
+        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsBritishInfantry(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantryWithArty(cutouts = false);
-        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantry(cutouts = false);
+//        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsFrenchInfantry(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsCavalry(cutouts = false);
 //        translate([0, 0, baseHeight - sabotHeight + 0.5]) sabotsArtillery(cutouts = false);
      };
-*/
+**/
 };
