@@ -12,4 +12,5 @@ module ring(diameter = 25, height = 1) {
     };
 };
 
-translate([0, 0, 0]) ring(diameter = 24, height = 1.3);
+translate([0, 0, 0]) ring(diameter = 23.5, height = 1.4);
+//translate([0, 0, 0]) ring(diameter = 31.5, height = 1.4);
