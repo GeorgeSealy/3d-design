@@ -1,6 +1,6 @@
-fillDiameter = 29;
+fillDiameter = 28;
 fillTaper = 2;
-fillHeight = 2.5;
+fillHeight = 2.2;
 slotInset = 4;
 slotWidth = 6;
 slotHeight = 2 * fillHeight;

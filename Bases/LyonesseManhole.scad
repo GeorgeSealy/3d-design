@@ -1,6 +1,6 @@
 manholeDiameter = 18;
 manholeHeight = 2;
-cutDepth = 0.5;
+cutDepth = 0.7;
 
 innerCircleDiameter = manholeDiameter - 1.75;
 cutHeight = manholeHeight - cutDepth + 0.1;
@@ -70,7 +70,7 @@ union() {
         };
         
         difference() {
-            translate([0, 0, 0]) cylinder(h = manholeHeight - cutHeight, d = manholeDiameter + 2, $fn=144);
+            translate([0, 0, 0]) cylinder(h = manholeHeight / 3, d = manholeDiameter + 2, $fn=144);
             translate([0, 0, -1]) cylinder(h = manholeHeight + 0.1, d = manholeDiameter -1 + 0.1, $fn=144);
         };
         //cylinder(h = cutHeight, d = manholeDiameter - 1, $fn=144);
