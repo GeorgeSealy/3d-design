@@ -272,17 +272,19 @@ module sabotsBritishInfantryWithArty(tolerance = 0, cutouts = true) {
 };
 
 module sabotsBritishInfantry(cutout = false, filled = false) {
-              
+  
+/*              
     skirmishLineY = 20;
     mainLineY = 2;
     commanderLineY = -14;
     sideX = 22.5;
-/*
+*/
+/**/
     skirmishLineY = 15;
     mainLineY = -10;
     commanderLineY = 4;
     sideX = 22;
-*/
+/**/
     union() {
             
         // Skirmishers
@@ -309,7 +311,7 @@ module angleMarkings(length = 7, width = 1.5, height = 0.0 + grassHeight) {
 };
 
 union() {
-/**/
+/**
     intersection() {
         union() {
             difference() {
@@ -336,7 +338,7 @@ union() {
         scale([1, 1, 20]) translate([0, 0, -0.5]) cylindricalRect();
 
     };
-/**/
+**/
 /**/
     intersection() {
         baseShape();
