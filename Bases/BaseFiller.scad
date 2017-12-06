@@ -1,8 +1,8 @@
-fillDiameter = 25;
-fillTaper = 1;
+fillDiameter = 29;
+fillTaper = 2;
 fillHeight = 2.5;
 slotInset = 4;
-slotWidth = 4;
+slotWidth = 6;
 slotHeight = 2 * fillHeight;
 slotOffset = 1;
 fillBaseHeight = 0.3;
